@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="initial-scale=1.0, maximum-scale=2.0">
+
+	<title>DataTables example - HTML (DOM) sourced data</title>
+	<link rel="stylesheet" type="text/css" href="css/jquery.dataTables.css">
+	<link rel="stylesheet" type="text/css" href="css/demo.css">
+	<style type="text/css" class="init">
+
+	</style>
+	<script type="text/javascript" language="javascript" src="js/jquery.js"></script>
+	<script type="text/javascript" language="javascript" src="js/jquery.dataTables.js"></script>
+      <script type="text/javascript" src="js/bmob.js"></script>
+	<script type="text/javascript" language="javascript" class="init">
+
+
+
+     var htmltable=[];
+
+$(document).ready(function() {
+       Bmob.initialize("90c9786e56626081758c0fcaf234bdca", "f8c0e5b03a9c3f801870a5c97062c4d1");
+  
+       initdata();
+    // Setup - add a text input to each footer cell
+    $('#example tfoot th').each( function () {
+        var title = $('#example thead th').eq( $(this).index() ).text();
+        $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+    } );
+ 
+    // DataTable
+    var table = $('#example').DataTable({
+    "aaData":[["ss","ss","ss","ss","ss","ss"],["ss","ss","ss","ss","ss","ss"],["ss","ss","ss","ss","ss","ss"],["ss","ss","ss","ss","ss","ss"],["ss","ss","ss","ss","ss","ss"],["ss","ss","ss","ss","ss","ss"]
+    ["ss","ss","ss","ss","ss","ss"],["ss","ss","ss","ss","ss","ss"],["ss","ss","ss","ss","ss","ss"],["ss","ss","ss","ss","ss","ss"]],
+    "aoColumns": [
+            { "sTitle": "Engine" },
+            { "sTitle": "Browser" },
+            { "sTitle": "Platform" },
+            { "sTitle": "Version",},
+            { "sTitle": "Version",},
+            { "sTitle": "Version",}
+        ]
+    });
+ 
+    // Apply the search
+    table.columns().eq( 0 ).each( function ( colIdx ) {
+        $( 'input', table.column( colIdx ).footer() ).on( 'keyup change', function () {
+            table
+                .column( colIdx )
+                .search( this.value )
+                .draw();
+        } );
+    } );
+} );
+       function initdata()
+       {
+		          var GameScore = Bmob.Object.extend("test1");
+			    var query = new Bmob.Query(GameScore);
+			    
+			    // 精确查询
+			    //query.equalTo("name","bar");
+			    //模糊查询
+			    //query.contains("name2", "2")
+			    query.find( {
+			      success: function(object) {
+			        // The object was retrieved successfully.
+			        // alert(object);
+			        var objtemp;
+			        
+			        
+			        for(var i=0; i<object.length;i++)
+			        {
+			        
+
+			        
+				        objtemp= object[i];
+                                 htmltable.push("["+objtemp.get("name")+"，"+objtemp.get("name")+"，"+objtemp.get("name")+"，"+objtemp.get("name")+"，"+objtemp.get("name")+"，"+objtemp.get("name")+"]");
+			              
+			        }
+			        
+			        
+			        
+			        //alert(object.get("name"));
+			        //alert(object.get("name2"));
+			      },
+			      error: function(object, error) {
+			        alert("query object fail");
+			      }
+			    });
+       }
+
+	</script>
+</head>
+
+<body class="dt-example">
+	<div class="container">
+
+			<h1>DataTables example <span>HTML (DOM) sourced data</span></h1>
+
+			<table id="example" class="display" cellspacing="0" width="100%">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Position</th>
+						<th>Office</th>
+						<th>Age</th>
+						<th>Start date</th>
+						<th>Salary</th>
+					</tr>
+				</thead>
+
+				<tfoot>
+					<tr>
+						<th>Name</th>
+						<th>Position</th>
+						<th>Office</th>
+						<th>Age</th>
+						<th>Start date</th>
+						<th>Salary</th>
+					</tr>
+				</tfoot>
+
+				<tbody>
+ 
+				</tbody>
+			</table>
+
+
+</body>
+</html>
