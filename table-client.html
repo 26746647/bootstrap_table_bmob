@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>客户端表格</title>
+
+    <!-- Bootstrap core CSS -->
+	<link rel="stylesheet" href="css/sai-theme.css" >
+    <link rel="stylesheet" href="css/jquery.dataTables.css">
+	<link rel="stylesheet" href="css/dataTables.tableTools.css">
+	<link rel="stylesheet" href="css/dataTables.colReorder.css">
+	<link rel="stylesheet" href="css/dataTables.colVis.css">
+
+	<link rel="stylesheet" href="css/sai-fet.css" >
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="../../js/vendor/html5shiv.js"></script>
+    <script src="../../js/vendor/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+	<div class="container">
+		<div class="panel-title">表格</div>
+		<div class="table-responsive">
+			<table id="example" class="table table-striped table-bordered table-hover"></table>
+		</div>
+	</div>
+</body>
+<script src="js/jquery/jquery-1.11.0.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery.dataTables.js"></script>
+<script src="js/dataTables.tableTools.js"></script>
+<script src="js/dataTables.colReorder.js"></script>
+<script src="js/dataTables.colVis.js"></script>
+<script src="js/sai-table.js"></script>
+<script type="text/javascript" src="bmob.js"></script>
+</html>
+<script>
+
+$(function()
+{
+ 
+       Bmob.initialize("90c9786e56626081758c0fcaf234bdca", "f8c0e5b03a9c3f801870a5c97062c4d1");
+       var data1=[]; 
+       initdata();
+       var myobj;
+       
+       
+       function initdata()
+       {
+       
+        var GameScore = Bmob.Object.extend("test1");
+		var query = new Bmob.Query(GameScore);
+
+			    // 精确查询
+			    //query.equalTo("name","bar");
+			    //模糊查询
+			    //query.contains("name2", "2")
+			    query.find( {
+			      success: function(object) {
+			        // The object was retrieved successfully.
+			        // alert(object);
+			        var objtemp;
+
+
+			        for(var i=0; i<object.length;i++)
+			        {
+				        objtemp= object[i];
+						data1.push("{number:'"+ objtemp.get("name") +"',name:'"+ objtemp.get("name2") +"',sex:'24',phone:'24',email:'24'}");
+			        }
+
+                     myobj=eval("["+data1+"]");
+                     inittable();
+			        //alert(object.get("name"));
+			        //alert(object.get("name2"));
+			      },
+			      error: function(object, error) {
+			        alert(error);
+			      }
+			    });
+
+       
+       } 
+   
+    	        
+    var data=[//初始化数据
+    	            {"number":"100999801", "name":"郭宏泰", "sex":"男", "phone":"1860897882", "email":"guohongtai@zte.com.cn" },
+    	            {"number":"10094280", "name":"付伟伟", "sex":"男", "phone":"1860897833", "email":"fuweiwei@zte.com.cn" },
+    	            {"number":"10002980", "name":"陈虹桥", "sex":"男", "phone":"1460877872", "email":"chenhongqiao@zte.com.cn" },
+    	            {"number":"10075634", "name":"邝宇锋", "sex":"男", "phone":"1860555872", "email":"kuangyufeng@zte.com.cn" },
+    	            {"number":"10094350", "name":"吕华为", "sex":"男", "phone":"1860557872", "email":"lvhuawei@zte.com.cn" },
+    	            {"number":"10013499", "name":"王斌", "sex":"男", "phone":"1833897872", "email":"wangbin@zte.com.cn" },
+    	            {"number":"10065475", "name":"王新国", "sex":"男", "phone":"1860333372", "email":"wangxinguo@zte.com.cn" },
+    	            {"number":"10129980", "name":"陈运超", "sex":"男", "phone":"1860823372", "email":"chenyunchao@zte.com.cn" },
+    	            {"number":"10051920", "name":"徐慧婧", "sex":"女", "phone":"1864217872", "email":"xuhuijin@zte.com.cn" },
+    	            {"number":"10089980", "name":"张宏伟", "sex":"男", "phone":"1360896872", "email":"zhanghongwei@zte.com.cn" },
+    	            {"number":"10025462", "name":"林尤冲", "sex":"男", "phone":"1860897772", "email":"chenxizhe@zte.com.cn" },
+    	            {"number":"10043213", "name":"陈心哲", "sex":"男", "phone":"1865557872", "email":"chenxizhe@zte.com.cn" }
+    	        ];
+    	        
+    function inittable()
+    {
+	    oTable = $('#example').dataTable({
+	    	"aaData": myobj,
+	    	 //表初始化回调
+			"fnInitComplete": function(oSettings, json) {
+				addCheckbox();
+			},
+			//分页回调
+			"fnFooterCallback": function( nFoot, aData, iStart, iEnd, aiDisplay ) {
+				changeCheckboxState(false);	
+		   	},
+			"fnDrawCallback": function( oSettings ) {
+				changeRowCSS();
+			},
+		   	//设置6列，第一列特殊处理checkbox,其他是列名和class
+	        "aoColumns": [
+	             {"mData": null, "sDefaultContent": "<input type='checkbox' name='check-opt'>", "sClass": "table-checkbox" },
+	             {"mDataProp": "number","sTitle": "工号" },
+	             {"mDataProp": "name","sTitle": "姓名" },
+	             {"mDataProp": "sex","sTitle": "性别" },
+	             {"mDataProp": "phone","sTitle": "电话", "sClass": "center" },
+	             {"mDataProp": "email","sTitle": "邮箱", "sClass": "center" }
+	        ],
+	        //自定义分页类型
+	     	"sPaginationType": "bootstrap",
+	     	//排序的时候放弃列的样式
+	     	"bSortClasses": false,
+	     	//第一列checkbox不排序
+	        "aoColumnDefs": [
+	            { "bSortable": false, "aTargets": [ 0 ] }
+	        ],
+	        //汉化
+	        "oLanguage": {
+	            "sLengthMenu": "_MENU_",
+	            "sZeroRecords": "没有匹配的记录",
+	            "sInfo": "<p class='record'>显示第 _START_ 至 _END_ 项记录，共 _TOTAL_ 项</p>",
+	            "sInfoEmpty": "显示第 0 至 0 项记录，共 0 项",
+	            "sInfoFiltered": "(由 _MAX_ 项记录过滤)",
+	            "sSearch": ""
+	        },
+	        //f(过滤)r(页数)t(表格)i(表格信息)p(分页)页面布局,R是ColReorder插件(列拖动),C是ColVis插件(列隐藏),T是TableTools插件(按钮和导出) 
+			"sDom" : "RTlC<'tabTools-filter'f>rt<'table-footer clearfix'ip>",
+	        //第一列checkbox不隐藏
+			"oColVis": {
+	            "aiExclude": [ 0 ],
+	            "buttonText": "显示/隐藏"
+	        },
+			//第一列checkbox固定不能拖动
+			"oColReorder": {
+	            "iFixedColumns": 1,
+	            "fnReorderCallback": function () {
+	            	//获取拖动后的列顺序
+	               order =  this.fnOrder();
+	            }
+	        },
+	        //table上方显示增加，修改，删除，更多按钮
+			"oTableTools" : {
+				"aButtons" : [
+				{
+					"sExtends":    "text",
+					"sButtonText" : '增加',
+					"fnClick": function ( nButton, oConfig, oFlash ) 
+					{
+						addModel(nButton);
+					}
+	        	},
+	        	{
+					"sExtends":    "text",
+					"sButtonText" : '修改',
+					"fnClick": function ( nButton, oConfig, oFlash ) 
+					{
+						modifyModal(nButton, order);
+	        		}
+	         	},
+	        	{
+	         		"sExtends":    "text",
+	         		"sButtonText" : '删除',
+	         		"fnClick": function (nButton, oConfig, oFlash) 
+	         		{
+	         			delModal();
+	            	}
+	         	},
+	         	{
+					"sExtends":    "collection",
+					"sButtonText" : '更多',
+					"aButtons":[ "csv", "xls", "pdf" ]
+	         	}             
+	       		]
+			}
+	    });
+	    hideBtnCSS('example');
+    	addBtnCSS('example');
+    	modifyBtnCSS('example');
+    	delBtnCSS('example');
+    	moreBtnCSS('example');
+    }
+    
+});
+
+//增加数据
+function addRow(){
+	if($('#inputNumber')[0].value != null && $('#inputNumber')[0].value.length > 0 &&
+			$('#inputName')[0].value != null && $('#inputName')[0].value.length > 0 &&
+			$('#inputSex')[0].value != null && $('#inputSex')[0].value.length > 0 &&
+			$('#inputPhone')[0].value != null && $('#inputPhone')[0].value.length > 0 &&
+			$('#inputEmail')[0].value != null && $('#inputEmail')[0].value.length > 0){
+
+
+			//创建一个对象                      表名
+			var GameScore = Bmob.Object.extend("test1");
+		    var gameScore = new GameScore();
+		    
+		    // 属性名  属性值
+		    gameScore.set("name",  $('#inputNumber')[0].value);
+		    gameScore.set("name2", $('#inputName')[0].value);
+		    gameScore.save(null, {
+		      success: function(object) {
+		        alert("create object success, object id:"+object.id);
+		        //增加数据		
+				oTable.fnAddData({
+					"number" : $('#inputNumber')[0].value,
+					"name" : $('#inputName')[0].value,
+					"sex" : $('#inputSex')[0].value,
+					"phone" : $('#inputPhone')[0].value,
+					"email" : $('#inputEmail')[0].value
+				});
+		        
+		        
+		      },
+		      error: function(model, error) {
+		        alert("create object fail");
+		      }
+		    });
+
+
+			
+		}
+		return true;
+	}
+	//修改数据
+	function modifyRow() {
+		if ($('#inputNumber2')[0].value != null
+				&& $('#inputNumber2')[0].value.length > 0
+				&& $('#inputName2')[0].value != null
+				&& $('#inputName2')[0].value.length > 0
+				&& $('#inputSex2')[0].value != null
+				&& $('#inputSex2')[0].value.length > 0
+				&& $('#inputPhone2')[0].value != null
+				&& $('#inputPhone2')[0].value.length > 0
+				&& $('#inputEmail2')[0].value != null
+				&& $('#inputEmail2')[0].value.length > 0) {
+			//先删除再增加
+			oTable.fnDeleteRow(modifyNode);
+			oTable.fnAddData({
+				"number" : $('#inputNumber2')[0].value,
+				"name" : $('#inputName2')[0].value,
+				"sex" : $('#inputSex2')[0].value,
+				"phone" : $('#inputPhone2')[0].value,
+				"email" : $('#inputEmail2')[0].value
+			});
+		}
+		return true;
+	}
+</script>
+
+<!-- Generated by RunJS (Fri Feb 14 10:35:17 CST 2014) 2ms -->
