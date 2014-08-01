@@ -33,7 +33,7 @@
                     <label class="col-md-2 col-sm-2 col-sm-2 control-label" for="empID">用户名</label>
 
                     <div class="col-md-10 col-sm-10 pr">
-                        <input type="text" placeholder="请输入8位工号" id="empID" class="form-control" maxlength="8">
+                        <input type="text" placeholder="请输入用户名" id="empID" class="form-control" maxlength="8">
 
                         <div class="tooltip input-tooltip-inline">
                             <div class="tooltip-inner label-danger hide">
@@ -46,7 +46,7 @@
                     <label class="col-md-2 col-sm-2 col-sm-2 control-label" for="empPwd">密码</label>
 
                     <div class="col-md-10 col-sm-10 pr">
-                        <input type="password" placeholder="你的人事在线密码" id="empPwd" class="form-control" maxlength="12">
+                        <input type="password" placeholder="请输入密码" id="empPwd" class="form-control" maxlength="12">
 
                         <div class="tooltip input-tooltip-inline">
                             <div class="tooltip-inner label-danger hide">
@@ -95,15 +95,12 @@
             var $empID = $("#empID");
             var $empPwd = $("#empPwd");
             var tooltipInner = $empID.parent().find(".tooltip-inner");
-
-
-
             tooltipInner = $empPwd.parent().find(".tooltip-inner");
             if($empPwd.val().length < 6)
             {
                 $empPwd.parent().removeClass("has-success").addClass("has-error");
-                tooltipInner.removeClass("label-success").removeClass("hide").addClass("label-danger");
-                tooltipInner.text("密码长度不正确");
+                $empPwd.parent().find(".tooltip-inner").removeClass("label-success").removeClass("hide").addClass("label-danger");
+                $empPwd.parent().find(".tooltip-inner").text("密码长度不正确");
                 $empPwd.focus();
                 return;
             }
@@ -120,11 +117,13 @@
 			    Bmob.User.logIn($empID.val(), $empPwd.val(), {
 				  success: function(user) {
 				    // Do stuff after successful login.
-				    alert('login success');
+				    alert('login success')
+				    user.isCurrent();
+				    alert("      ");
 				  },
 				  error: function(user, error) {
 				    // The login failed. Check error to see why.
-				    alert(error);
+				    alert(error.message);
 				  }
 				});
             
