@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>导航</title>
+
+    <!-- core CSS -->
+    <!--<link href="../../css/bootstrap.css" rel="stylesheet">-->
+    <link href="css/sai-theme.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="bootstrap_menu.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if IE]>
+    <script src="../../js/vendor/html5shiv.js"></script>
+    <script src="../../js/vendor/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+
+<div class="container">
+
+    <header class="header row" role="banner">
+        <h1 class="text-hide hide">Custom heading</h1>
+        <nav class="navbar navbar-default" role="navigation">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Anyservice Portal</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li><a href="javascript:void(0);">资源</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">子菜单<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="javascript:void(0);">子菜单1</a></li>
+                            <li class="divider"></li>
+                            <li><a href="javascript:void(0);">子菜单2</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">子菜单2 <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="javascript:void(0);">动作 1</a></li>
+                            <li class="dropdown">
+                                <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">子下拉菜单 <b
+                                        class="caret-right"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="javascript:void(0);">动作 AAA</a></li>
+                                    <li><a href="javascript:void(0);">动作 BBB</a></li>
+                                </ul>
+                            </li>
+                            <li class="divider">这是分隔线</li>
+                            <li class="dropdown-header">导航头</li>
+                            <li><a href="javascript:void(0);">子动作1</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="javascript:void(0);">性能</a></li>
+                    <li><a href="javascript:void(0);">系统</a></li>
+                    <li><a href="javascript:void(0);">配置</a></li>
+                    <li><a href="javascript:void(0);">日志</a></li>
+                    <li><a href="javascript:void(0);">短信</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown avatar">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="../../res_demo/person.png" alt="">Windy<span
+                                class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="javascript:void(0);">个人中心</a></li>
+                            <li class="divider"></li>
+                            <li><a href="javascript:void(0);">登出</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </nav>
+    </header>
+
+</div>
+<!-- /container -->
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="js/jquery/jquery-1.11.0.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+
+<script>
+    $(function()
+    {
+        /*$('.navbar .nav').on('click', function(e)
+         {
+         $(".nav .active").removeClass("active");
+         $(e.target).closest('li').addClass("active");
+         });*/
+    })
+
+</script>
+
+</body>
+</html>
