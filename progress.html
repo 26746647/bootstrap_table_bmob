@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>进度条</title>
+
+    <!-- Bootstrap core CSS -->
+	<link href="css/sai-theme.css" rel="stylesheet">
+    <link href="css/sai-fet.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="../../js/vendor/html5shiv.js"></script>
+    <script src="../../js/vendor/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+	<div class="container">
+		<div class="panel-title">进度条</div>
+		<div class="progress">
+			<div class="progress-bar progress-bar-danger role="progressbar" aria-valuenow="100" aria-valuemin="0"aria-valuemax="100" style="width: 100%"></div>
+		</div>
+		<br>
+		<div class="progress">
+			<div class="progress-bar progress-bar-success" style="width: 35%">
+				<span class="sr-only">35% Complete (success)</span>
+			</div>
+			<div class="progress-bar progress-bar-warning" style="width: 20%">
+				<span class="sr-only">20% Complete (warning)</span>
+			</div>
+			<div class="progress-bar progress-bar-danger" style="width: 10%">
+				<span class="sr-only">10% Complete (danger)</span>
+			</div>
+		</div>
+		<div class="progress progress-striped active">
+			<div class="progress-bar" id="processbar" role="progressbar"aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+				<span id="complete">0%</span>
+			</div>
+		</div>
+
+		<div>
+			<span id="complete2">0%</span>
+		</div>
+		<div class="progress progress-striped">
+			<div class="progress-bar progress-bar-warning" id="processbar2"role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
+		</div>
+		<br>
+
+	</div>
+</body>
+
+<script src="js/jquery/jquery-1.11.0.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+var total=10000;
+var breaker=100;
+var turn=100/(total/breaker);
+var progress=0;
+var timer = setInterval(function(){
+    progress=progress+turn;
+    
+    progressComplete("#complete","#processbar",progress);
+    progressComplete("#complete2","#processbar2",progress);
+    
+    if (progress>=100) {
+        clearInterval(timer);
+    }
+}, breaker);
+
+function progressComplete(complete,processbar,progress)
+{
+	$(complete).html(progress+"%");
+    $(processbar).attr("style", "width:"+progress+"%");
+}
+</script>
+
+</html>
