@@ -1,0 +1,292 @@
+<!doctype html>
+<head>
+  <meta charset="utf-8">
+
+  <title>My Bmob App</title>
+  <meta name="description" content="My Bmob App">
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" type="text/css" href="table/css/bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="table/css/main.css">
+  <script type="text/javascript" src="jquery.min.js"></script>
+  <script type="text/javascript" src="bmob.js"></script>
+  <script type="text/javascript" src="table/js/bootstrap-paginator.js"></script>
+</head>
+
+<body>
+  
+  <div id="main">
+	<h1>开始 之旅!</h1>
+    <div class="sec_pro_con">
+                <div class="clearfix pb10 pt10 dl_tt">
+                       <i class="fl circle_mark" style="margin-top:10px"></i>
+                       <i class="fl yahei f16 title_st2" style="margin-top:10px">产品列表中心</i>
+                    </div>
+                  
+                    
+                    <!-- /wizar_step -->
+                
+                
+            </div>
+    <div style="display:none" class="error">
+	  看起来保存对象时出现问题, 当调用<code>Bmob.initialize</code> 的时候，记得要先设置 Application ID 和 REST API Key 哦，亲！
+    </div>
+
+    <div style="display:none" class="success">
+      <p>已经成功创建了第一个对象</p>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+
+	//Bmob.initialize("Application ID", "REST API Key");90c9786e56626081758c0fcaf234bdca f8c0e5b03a9c3f801870a5c97062c4d1
+    Bmob.initialize("90c9786e56626081758c0fcaf234bdca", "f8c0e5b03a9c3f801870a5c97062c4d1");
+	ajaxSoftList(1);
+
+	
+	
+	function pageProduct(total,page)
+    {
+        var options = {
+                bootstrapMajorVersion: 3,
+                currentPage: page,  
+                totalPages: total/10 + 1,  
+                size:"normal",  
+                alignment:"center",  
+                itemTexts: function (type, page, current) {  
+                    switch (type) {  
+                        case "first":  
+                            return "第一页";  
+                        case "prev":  
+                            return "<";  
+                        case "next":  
+                            return ">";  
+                        case "last":  
+                            return "最后页";  
+                        case "page":  
+                            return  page;  
+                    }                 
+                },  
+                  onPageClicked: function (e, originalEvent, type, page) {
+                         //加载pageclickednumber页的数据
+                         ajaxSoftList(page);
+                        }   
+            };
+        $('.pagination').bootstrapPaginator(options);  
+    }
+	
+	
+	function ajaxSoftList(page)
+    {
+        
+        var htmls=[];
+        
+        htmls.push('<div class="clearfix pb10 pt10 dl_tt">');
+        htmls.push('<i class="fl circle_mark" style="margin-top: 10px"></i>');
+        htmls.push('<i  class="fl yahei f16 title_st2" style="margin-top: 10px">');
+        htmls.push('<strong id="pname"></strong>&nbsp;相关产品</i>');
+        htmls.push('</div>'); 
+        htmls.push('<p class="color8 pt10">');
+        htmls.push('共有<i class="colorr"></i>条记录');
+        htmls.push('</p>');
+        htmls.push('<!--表格 begin-->');
+        htmls.push('<div class="pt20 pb10">');
+        htmls.push('<table class="table_st1">');
+        
+        htmls.push('<thead>');
+        htmls.push('<tr>');
+        htmls.push('<th width="null">产品名称</th>');
+        htmls.push('<th width="20%">发布日期</th>');
+        htmls.push('<th width="15%">文件大小</th>');
+        htmls.push('<th width="10%">操作</th>');
+        htmls.push('</tr>');
+        htmls.push('</thead>');
+        htmls.push('<tbody class="yahei f14">');
+        htmls.push('</tbody>');
+        htmls.push('</table>');
+        htmls.push('</div>');
+        htmls.push('<div class="tr pb20">');
+        htmls.push('<!--分页-->');
+        htmls.push('<div class="tr">');
+        htmls.push('<ul class="pagination"></ul>');
+        htmls.push('</div>');
+        htmls.push(' <!--over 分页--> ');
+        htmls.push('</div>');
+        htmls.push('<!--表格 end-->');
+             
+        $(".sec_pro_con").html(htmls.join(''));
+        
+                  	/*
+	//获取一行数据
+	*/
+	var GameScore = Bmob.Object.extend("test1");
+    var query = new Bmob.Query(GameScore);
+    
+    // 精确查询
+    //query.equalTo("name","bar");
+    //模糊查询
+    query.contains("name2", "2")
+    query.find( {
+      success: function(object) {
+        // The object was retrieved successfully.
+        // alert(object);
+        
+        var vals=[]; 
+        
+        var objtemp;
+        for(var i=0; i<object.length;i++)
+        {
+        	objtemp= object[i];;
+			alert(objtemp.get("name"));
+			
+			vals.push('<tr>');
+			vals.push('<td>');
+			vals.push(objtemp.get("name"));
+			vals.push(objtemp.get("name"));
+			vals.push('</td>');
+			vals.push('<td class="tc">');
+			vals.push(objtemp.get("name") );
+			vals.push('</td>');
+			vals.push('<td class="tc">');
+			vals.push(objtemp.get("name"));
+			vals.push('</td>');
+			vals.push('<td class="tc"><a class="dl_icon" href="" ></a></td>');
+			vals.push('</tr>');
+			
+			
+        }
+
+        $(".table_st1 .yahei").html(vals.join(''));
+        
+        
+        //alert(object.get("name"));
+        //alert(object.get("name2"));
+      },
+      error: function(object, error) {
+        alert("query object fail");
+      }
+    });
+        
+        
+    }
+
+	//成功添加一条数据       表名
+	//var TestObject = Bmob.Object.extend("test1");
+	// 实体对象
+    //var testObject = new TestObject();
+      
+    //设置属性       属性名  属性值
+    // testObject.save({name: "bar"}，{
+    //  success: function(object) {
+    //    $(".success").show();
+    //  },
+    //  error: function(model, error) {
+    //    $(".error").show();
+    //  }
+    //});
+	
+	
+	
+	
+	/*
+	//创建一个对象                      表名
+	var GameScore = Bmob.Object.extend("test1");
+    var gameScore = new GameScore();
+    
+    // 属性名  属性值
+    gameScore.set("name", "11111");
+    gameScore.set("name2", "22222");
+    gameScore.save(null, {
+      success: function(object) {
+        alert("create object success, object id:"+object.id);
+      },
+      error: function(model, error) {
+        alert("create object fail");
+      }
+    });
+		*/
+	
+	
+	
+	
+	/*
+	//获取一行数据
+	
+	var GameScore = Bmob.Object.extend("test1");
+    var query = new Bmob.Query(GameScore);
+    
+    // 精确查询
+    //query.equalTo("name","bar");
+    //模糊查询
+    query.contains("name2", "2")
+    query.find( {
+      success: function(object) {
+        // The object was retrieved successfully.
+        // alert(object);
+        var objtemp;
+        for(var i=0; i<object.length;i++)
+        {
+        	objtemp= object[i];;
+			alert(objtemp.get("name"));
+        }
+        
+        //alert(object.get("name"));
+        //alert(object.get("name2"));
+      },
+      error: function(object, error) {
+        alert("query object fail");
+      }
+    });
+*/
+	
+	/*
+	//修改一行数据
+	var GameScore = Bmob.Object.extend("GameScore");
+    var query = new Bmob.Query(GameScore);
+    query.get("4edc3f6ee9", {
+      success: function(object) {
+        // The object was retrieved successfully.
+        object.set("score", 1338);
+        object.save(null, {
+          success: function(objectUpdate) {
+            alert("create object success, object score:"+objectUpdate.get("score"));
+          },
+          error: function(model, error) {
+            alert("create object fail");
+          }
+        });
+      },
+      error: function(object, error) {
+        alert("query object fail");
+      }
+    });
+	*/
+
+	/*	
+	//删除一行数据
+	var GameScore = Bmob.Object.extend("GameScore");
+    var query = new Bmob.Query(GameScore);
+    query.get("4edc3f6ee9", {
+      success: function(object) {
+        // The object was retrieved successfully.
+        object.destroy({
+          success: function(deleteObject) {
+          alert("delete success");
+          },
+          error: function(GameScoretest, error) {
+          alert("delete fail");
+          }
+        });
+      },
+      error: function(object, error) {
+        alert("query object fail");
+      }
+    });
+	*/
+
+	
+  </script>
+</body>
+
+</html>
